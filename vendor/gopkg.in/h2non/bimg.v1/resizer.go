@@ -69,7 +69,7 @@ func resizer(buf []byte, o Options) ([]byte, error) {
 	// Try to use libjpeg/libwebp shrink-on-load
 	supportsShrinkOnLoad := imageType == WEBP && VipsMajorVersion >= 8 && VipsMinorVersion >= 3
 	supportsShrinkOnLoad = supportsShrinkOnLoad || imageType == JPEG
-	if supportsShrinkOnLoad && shrink >= 2 {
+	if supportsShrinkOnLoad && shrink >= 1 {
 		tmpImage, factor, err := shrinkOnLoad(buf, image, imageType, factor, shrink)
 		if err != nil {
 			return nil, err
@@ -413,7 +413,7 @@ func shrinkOnLoad(buf []byte, input *C.VipsImage, imageType ImageType, factor fl
 	var err error
 
 	// Reload input using shrink-on-load
-	if imageType == JPEG && shrink >= 2 {
+	if imageType == JPEG && shrink >= 1 {
 		shrinkOnLoad := 1
 		// Recalculate integral shrink and double residual
 		switch {
